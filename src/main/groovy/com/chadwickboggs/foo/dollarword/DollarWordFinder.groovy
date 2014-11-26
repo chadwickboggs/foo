@@ -1,6 +1,6 @@
 package com.chadwickboggs.foo.dollarword
 
-import org.jetbrains.annotations.NotNull
+//import org.jetbrains.annotations.NotNull
 
 final class DollarWordFinder {
 
@@ -14,7 +14,7 @@ final class DollarWordFinder {
         }
     }
 
-    @NotNull
+//    @NotNull
     public static final Set<String> dollarWords() {
         Set<String> dollarWords = new ArrayList<>()
 
@@ -25,27 +25,34 @@ final class DollarWordFinder {
             }
         }
 
+        println "Count of Dollar Words: ${dollarWords.size(  )}"
+
         return dollarWords
     }
 
-    static boolean isDollarWord( @NotNull final String word ) {
-        return wordValue( word ) == DOLLAR_VALUE
+    static boolean isDollarWord( /*@NotNull*/ final String word ) {
+        int wordValue = wordValue( word )
+//        println( "${wordValue}\t${word}" )
+
+        return wordValue == DOLLAR_VALUE
     }
 
-    static int wordValue( @NotNull final String word ) {
+    static int wordValue( /*@NotNull*/ final String word ) {
         int value = 0;
 
-        char[] characters = word.toLowerCase().toCharArray()
-        characters.each { c ->
-            int characterValue = characterValue( c )
+        byte[] bytes = word.toLowerCase().bytes
+        bytes.each { b ->
+            int characterValue = characterValue( b )
+//            println "${characterValue}\t${b}"
+
             value += characterValue
         }
 
         return value;
     }
 
-    static int characterValue( final char character ) {
-        int characterValue = character - 140
+    static int characterValue( final byte character ) {
+        int characterValue = ((int) character) - 96
 
         if (characterValue >= 1 && characterValue <= 26)
             return characterValue

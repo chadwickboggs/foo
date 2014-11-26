@@ -1,0 +1,22 @@
+#
+# DEN - Denver, Colorado
+# CLA - Los Angeles, California
+# NYC - New York City, New York
+# SLC - Salt Lake City, Utah
+# MFL - Miami, Florida
+# PAR - Phoenix, Arizona
+# CWY - Cheyenne, Wyoming
+#
+
+DEN,CLA,3.2
+DEN,NYC,2.5
+CLA,NYC,0.75
+SLC,CLA,1.5
+SLC,NYC,1.02
+SLC,DEN,0.6
+MFL,NYC,6.0
+MFL,SLC,2.0
+MFL,PAR,1.1
+DEN,PAR,1.75
+CWY,DEN,2.2
+CWY,SLC,1.7

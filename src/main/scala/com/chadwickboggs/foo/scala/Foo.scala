@@ -60,3 +60,15 @@ object Zero extends Nat {
     override def +(that: Nat): Nat = that
     override def -(that: Nat): Nat = if (that.isZero) this else throw new Error
 }
+
+object FooListUtils {
+    def insert(x: Int, xs: List[Int]): List[Int] = {
+        xs match {
+            case List() => List[Int](x)
+            case  y :: ys => {
+                if (x <= y) x :: xs
+                else y :: insert(x, ys)
+            }
+        }
+    }
+}
