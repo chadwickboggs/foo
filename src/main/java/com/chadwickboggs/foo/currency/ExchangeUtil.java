@@ -1,8 +1,5 @@
 package com.chadwickboggs.foo.currency;
 
-//import com.sun.istack.internal.NotNull; // JetBrains annotations.jar possibly preferable.
-//import com.sun.istack.internal.Nullable; // JetBrains annotations.jar possibly preferable.
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,15 +31,15 @@ public final class ExchangeUtil {
     //
     @NotNull
     public static String cheapestExchangePathAsString(
-            @NotNull final String fromCurrency, @NotNull final String toCurrency) {
-        ExchangePath exchangePath = cheapestExchangePath(fromCurrency, toCurrency);
-        if (exchangePath == null) {
+            @NotNull final String fromCurrency, @NotNull final String toCurrency ) {
+        ExchangePath exchangePath = cheapestExchangePath( fromCurrency, toCurrency );
+        if ( exchangePath == null ) {
             return "";
         }
 
-        final List<String> path = extractPath(exchangePath);
-        String exchangePathAsString = DelimitedStringUtil.toString(path, true);
-        if (exchangePathAsString == null || exchangePathAsString.length() == 0) {
+        final List< String > path = extractPath( exchangePath );
+        String exchangePathAsString = DelimitedStringUtil.toString( path, true );
+        if ( exchangePathAsString == null || exchangePathAsString.length() == 0 ) {
             //
             // Design Note: Shown merely to communicate knowledge of the technique.
             //
@@ -56,17 +53,17 @@ public final class ExchangeUtil {
         return exchangePathAsString;
     }
 
-    private static List<String> extractPath(final ExchangePath exchangePath) {
+    private static List< String > extractPath( final ExchangePath exchangePath ) {
         assert exchangePath != null
                 : "Provided exchange path is null.";
 
-        final List<String> pathList = new ArrayList<>();
-        final List<ExchangeRate> path = exchangePath.getPath();
-        for (int i = 0; i < path.size(); i++) {
-            final ExchangeRate exchangeRate = path.get(i);
-            pathList.add(exchangeRate.getFromCurrency());
-            if (i == path.size() - 1) {
-                pathList.add(exchangeRate.getToCurrency());
+        final List< String > pathList = new ArrayList<>();
+        final List< ExchangeRate > path = exchangePath.getPath();
+        for ( int i = 0; i < path.size(); i++ ) {
+            final ExchangeRate exchangeRate = path.get( i );
+            pathList.add( exchangeRate.getFromCurrency() );
+            if ( i == path.size() - 1 ) {
+                pathList.add( exchangeRate.getToCurrency() );
             }
         }
 
@@ -75,28 +72,28 @@ public final class ExchangeUtil {
 
     @Nullable
     public static ExchangePath cheapestExchangePath(
-            @NotNull final String fromCurrency, @NotNull final String toCurrency) {
+            @NotNull final String fromCurrency, @NotNull final String toCurrency ) {
         //
         // Design Note: Guava preconditions possibly preferable over assert statements as assertions may be disabled.
         //
-        assert CurrencyUtil.isKnown(fromCurrency)
-                : String.format("Specified currency unknown.  fromCurrency; %s", fromCurrency);
-        assert CurrencyUtil.isKnown(toCurrency)
-                : String.format("Specified currency unknown.  toCurrency; %s", toCurrency);
+        assert CurrencyUtil.isKnown( fromCurrency )
+                : String.format( "Specified currency unknown.  fromCurrency; %s", fromCurrency );
+        assert CurrencyUtil.isKnown( toCurrency )
+                : String.format( "Specified currency unknown.  toCurrency; %s", toCurrency );
 
-        List<ExchangePath> everyPossiblePath = everyExchangePath(fromCurrency, toCurrency);
-        if (everyPossiblePath == null || everyPossiblePath.size() == 0) {
+        List< ExchangePath > everyPossiblePath = everyExchangePath( fromCurrency, toCurrency );
+        if ( everyPossiblePath == null || everyPossiblePath.size() == 0 ) {
             return null;
         }
 
-        final SortedSet<ExchangePath> pathTree = new TreeSet<ExchangePath>();
-        for (int i = 0; i < everyPossiblePath.size(); i++) {
-            ExchangePath path = everyPossiblePath.get(i);
-            if (path == null) {
+        final SortedSet< ExchangePath > pathTree = new TreeSet< ExchangePath >();
+        for ( int i = 0; i < everyPossiblePath.size(); i++ ) {
+            ExchangePath path = everyPossiblePath.get( i );
+            if ( path == null ) {
                 continue;
             }
 
-            pathTree.add(path);
+            pathTree.add( path );
         }
 
         return pathTree.first();
@@ -107,7 +104,7 @@ public final class ExchangeUtil {
     //              infinite loops.  One idea would be for every possible path between every node to be
     //              pre-calculated and cached and/or persisted, then this method would be a lookup.
     //
-    private static List<ExchangePath> everyExchangePath(final String fromCurrency, final String toCurrency) {
+    private static List< ExchangePath > everyExchangePath( final String fromCurrency, final String toCurrency ) {
         return null;
     }
 
@@ -119,34 +116,34 @@ public final class ExchangeUtil {
 
         public static final String DEFAULT_DELIMITER = ",";
 
-        public static List<String> fromString(final String csv) {
-            List<String> list = fromString(csv, DEFAULT_DELIMITER);
+        public static List< String > fromString( final String csv ) {
+            List< String > list = fromString( csv, DEFAULT_DELIMITER );
 
             return list;
         }
 
-        public static List<String> fromString(final String csv, final String delimiter) {
+        public static List< String > fromString( final String csv, final String delimiter ) {
             assert csv != null && csv.length() > 0
                     : "Provided comma separated list is null or empty.";
 
-            String[] values = csv.split(delimiter);
-            List<String> list = Arrays.asList(values);
+            String[] values = csv.split( delimiter );
+            List< String > list = Arrays.asList( values );
 
             return list;
         }
 
-        public static String toString(final List<String> everyPossiblePath, final boolean ignoreEmptyValues) {
-            String csv = toString(everyPossiblePath, ignoreEmptyValues, DEFAULT_DELIMITER);
+        public static String toString( final List< String > everyPossiblePath, final boolean ignoreEmptyValues ) {
+            String csv = toString( everyPossiblePath, ignoreEmptyValues, DEFAULT_DELIMITER );
 
             return csv;
         }
 
         public static String toString(
-                final List<String> everyPossiblePath, final boolean ignoreEmptyValues, final String delimiter) {
+                final List< String > everyPossiblePath, final boolean ignoreEmptyValues, final String delimiter ) {
             //
             // Design Note: StringUtils.isEmpty may be more useful and readable than explicit code.
             //
-            if (everyPossiblePath == null || everyPossiblePath.size() == 0) {
+            if ( everyPossiblePath == null || everyPossiblePath.size() == 0 ) {
                 //
                 // Design Note: It may be useful to debug log a message here.
                 //
@@ -157,18 +154,18 @@ public final class ExchangeUtil {
             // Design Note: Although square brackets were required, JSON may be worth considering
             //              and for it Google's GSON library as well.
             //
-            StringBuilder buf = new StringBuilder("[");
-            for (int i = 0; i < everyPossiblePath.size(); i++) {
-                final String value = everyPossiblePath.get(i);
-                if (value == null || value.length() == 0 && ignoreEmptyValues) {
+            StringBuilder buf = new StringBuilder( "[" );
+            for ( int i = 0; i < everyPossiblePath.size(); i++ ) {
+                final String value = everyPossiblePath.get( i );
+                if ( value == null || value.length() == 0 && ignoreEmptyValues ) {
                     continue;
                 }
-                if (i > 0) {
-                    buf.append(delimiter);
+                if ( i > 0 ) {
+                    buf.append( delimiter );
                 }
-                buf.append(value);
+                buf.append( value );
             }
-            buf.append("]");
+            buf.append( "]" );
 
             return buf.toString();
         }
@@ -178,22 +175,22 @@ public final class ExchangeUtil {
         private CurrencyUtil() {
         }
 
-        public static boolean isKnown(final String currency) {
+        public static boolean isKnown( final String currency ) {
             return false;
         }
     }
 
     private static class ExchangePath implements Comparable {
 
-        private List<ExchangeRate> path;
+        private List< ExchangeRate > path;
         private float exchangeRate;
 
-        public ExchangePath(final List<ExchangeRate> path, final float exchangeRate) {
+        public ExchangePath( final List< ExchangeRate > path, final float exchangeRate ) {
             this.path = path;
             this.exchangeRate = exchangeRate;
         }
 
-        public List<ExchangeRate> getPath() {
+        public List< ExchangeRate > getPath() {
             return path;
         }
 
@@ -202,22 +199,22 @@ public final class ExchangeUtil {
         }
 
         @Override
-        public int compareTo(final Object o) {
-            if (o instanceof ExchangePath) {
-                if (exchangeRate == ((ExchangePath) o).exchangeRate) {
+        public int compareTo( final Object o ) {
+            if ( o instanceof ExchangePath ) {
+                if ( exchangeRate == ( ( ExchangePath ) o ).exchangeRate ) {
                     return 0;
                 }
-                if (exchangeRate < ((ExchangePath) o).exchangeRate) {
+                if ( exchangeRate < ( ( ExchangePath ) o ).exchangeRate ) {
                     return -1;
                 }
 
                 return 1;
             }
 
-            if (hashCode() == o.hashCode()) {
+            if ( hashCode() == o.hashCode() ) {
                 return 0;
             }
-            if (hashCode() < o.hashCode()) {
+            if ( hashCode() < o.hashCode() ) {
                 return -1;
             }
 
@@ -231,7 +228,7 @@ public final class ExchangeUtil {
         private String toCurrency;
         private float exchangeRate;
 
-        public ExchangeRate(final String fromCurrency, final String toCurrency, final float exchangeRate) {
+        public ExchangeRate( final String fromCurrency, final String toCurrency, final float exchangeRate ) {
             this.fromCurrency = fromCurrency;
             this.toCurrency = toCurrency;
             this.exchangeRate = exchangeRate;

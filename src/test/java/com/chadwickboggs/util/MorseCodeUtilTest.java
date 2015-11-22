@@ -9,9 +9,9 @@ public class MorseCodeUtilTest {
 
     @Test
     public void testMorseCode() {
-        final String morseCode = MorseCodeUtil.morseCode("acbed");
+        final String morseCode = MorseCodeUtil.morseCode( "acbed" );
 
-        assertEquals(".--.-.-......-..", morseCode);
+        assertEquals( ".--.-.-......-..", morseCode );
     }
 
 }
