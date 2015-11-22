@@ -9,6 +9,9 @@ public class CashRegister {
 
     public static final String ERROR_MESSAGE = "ERROR";
 
+    protected CashRegister() {
+    }
+
     public static Collection<CurrencyUnit> pay(final Collection<CurrencyUnit> amount, final BigInteger price) {
         final BigInteger amountBI = amount(amount);
 
@@ -61,9 +64,6 @@ public class CashRegister {
         }
 
         return currencyUnit;
-    }
-
-    protected CashRegister() {
     }
 
 }

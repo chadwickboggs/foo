@@ -15,6 +15,9 @@ public final class TreeUtil {
     private static Gson gson = new GsonBuilder().create();
 
 
+    private TreeUtil() {
+    }
+
     @NotNull
     public static <T> T fromJson(@NotNull final String json, @NotNull final Class<T> clazz) {
         final T t = new GsonBuilder().create().fromJson(json, clazz);
@@ -95,9 +98,6 @@ public final class TreeUtil {
         }
 
         return found;
-    }
-
-    private TreeUtil() {
     }
 
 }

@@ -6,11 +6,7 @@ package com.chadwickboggs.foo.currency;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 //
@@ -22,143 +18,7 @@ import java.util.TreeSet;
 //
 public final class ExchangeUtil {
 
-    //
-    // Design Note: If values may be quoted strings and/or contain embedded or escaped delimiters,
-    //              a third party library possibly preferable.
-    //
-    private static final class DelimitedStringUtil {
-
-        public static final String DEFAULT_DELIMITER = ",";
-
-        public static List<String> fromString(final String csv) {
-            List<String> list = fromString(csv, DEFAULT_DELIMITER);
-
-            return list;
-        }
-
-        public static List<String> fromString(final String csv, final String delimiter) {
-            assert csv != null && csv.length() > 0
-                    : "Provided comma separated list is null or empty.";
-
-            String[] values = csv.split(delimiter);
-            List<String> list = Arrays.asList(values);
-
-            return list;
-        }
-
-        public static String toString(final List<String> everyPossiblePath, final boolean ignoreEmptyValues) {
-            String csv = toString(everyPossiblePath, ignoreEmptyValues, DEFAULT_DELIMITER);
-
-            return csv;
-        }
-
-        public static String toString(
-                final List<String> everyPossiblePath, final boolean ignoreEmptyValues, final String delimiter) {
-            //
-            // Design Note: StringUtils.isEmpty may be more useful and readable than explicit code.
-            //
-            if (everyPossiblePath == null || everyPossiblePath.size() == 0) {
-                //
-                // Design Note: It may be useful to debug log a message here.
-                //
-                return "";
-            }
-
-            //
-            // Design Note: Although square brackets were required, JSON may be worth considering
-            //              and for it Google's GSON library as well.
-            //
-            StringBuilder buf = new StringBuilder("[");
-            for (int i = 0; i < everyPossiblePath.size(); i++) {
-                final String value = everyPossiblePath.get(i);
-                if (value == null || value.length() == 0 && ignoreEmptyValues) {
-                    continue;
-                }
-                if (i > 0) {
-                    buf.append(delimiter);
-                }
-                buf.append(value);
-            }
-            buf.append("]");
-
-            return buf.toString();
-        }
-    }
-
-    public static final class CurrencyUtil {
-        public static boolean isKnown(final String currency) {
-            return false;
-        }
-
-        private CurrencyUtil() {
-        }
-    }
-
-    public class ExchangeRate {
-
-        private String fromCurrency;
-        private String toCurrency;
-        private float exchangeRate;
-
-        public ExchangeRate(final String fromCurrency, final String toCurrency, final float exchangeRate) {
-            this.fromCurrency = fromCurrency;
-            this.toCurrency = toCurrency;
-            this.exchangeRate = exchangeRate;
-        }
-
-        public String getFromCurrency() {
-            return fromCurrency;
-        }
-
-        public String getToCurrency() {
-            return toCurrency;
-        }
-
-        public float getExchangeRate() {
-            return exchangeRate;
-        }
-    }
-
-    private static class ExchangePath implements Comparable {
-
-        private List<ExchangeRate> path;
-        private float exchangeRate;
-
-        public ExchangePath(final List<ExchangeRate> path, final float exchangeRate) {
-            this.path = path;
-            this.exchangeRate = exchangeRate;
-        }
-
-        public List<ExchangeRate> getPath() {
-            return path;
-        }
-
-        public float getExchangeRate() {
-            return exchangeRate;
-        }
-
-        @Override
-        public int compareTo(final Object o) {
-            if (o instanceof ExchangePath) {
-                if (exchangeRate == ((ExchangePath) o).exchangeRate) {
-                    return 0;
-                }
-                if (exchangeRate < ((ExchangePath) o).exchangeRate) {
-                    return -1;
-                }
-
-                return 1;
-            }
-
-            if (hashCode() == o.hashCode()) {
-                return 0;
-            }
-            if (hashCode() < o.hashCode()) {
-                return -1;
-            }
-
-            return 1;
-        }
+    private ExchangeUtil() {
     }
 
     /**
@@ -166,7 +26,7 @@ public final class ExchangeUtil {
      * no path exists and throwing assertion exceptions if unknown currencies specified.
      *
      * @param fromCurrency the currency to exchange from.
-     * @param toCurrency the currency to exchange to.
+     * @param toCurrency   the currency to exchange to.
      * @return the cheapest exchange path between two currencies, empty string if no path exists.
      */
     //
@@ -251,6 +111,142 @@ public final class ExchangeUtil {
         return null;
     }
 
-    private ExchangeUtil() {
+    //
+    // Design Note: If values may be quoted strings and/or contain embedded or escaped delimiters,
+    //              a third party library possibly preferable.
+    //
+    private static final class DelimitedStringUtil {
+
+        public static final String DEFAULT_DELIMITER = ",";
+
+        public static List<String> fromString(final String csv) {
+            List<String> list = fromString(csv, DEFAULT_DELIMITER);
+
+            return list;
+        }
+
+        public static List<String> fromString(final String csv, final String delimiter) {
+            assert csv != null && csv.length() > 0
+                    : "Provided comma separated list is null or empty.";
+
+            String[] values = csv.split(delimiter);
+            List<String> list = Arrays.asList(values);
+
+            return list;
+        }
+
+        public static String toString(final List<String> everyPossiblePath, final boolean ignoreEmptyValues) {
+            String csv = toString(everyPossiblePath, ignoreEmptyValues, DEFAULT_DELIMITER);
+
+            return csv;
+        }
+
+        public static String toString(
+                final List<String> everyPossiblePath, final boolean ignoreEmptyValues, final String delimiter) {
+            //
+            // Design Note: StringUtils.isEmpty may be more useful and readable than explicit code.
+            //
+            if (everyPossiblePath == null || everyPossiblePath.size() == 0) {
+                //
+                // Design Note: It may be useful to debug log a message here.
+                //
+                return "";
+            }
+
+            //
+            // Design Note: Although square brackets were required, JSON may be worth considering
+            //              and for it Google's GSON library as well.
+            //
+            StringBuilder buf = new StringBuilder("[");
+            for (int i = 0; i < everyPossiblePath.size(); i++) {
+                final String value = everyPossiblePath.get(i);
+                if (value == null || value.length() == 0 && ignoreEmptyValues) {
+                    continue;
+                }
+                if (i > 0) {
+                    buf.append(delimiter);
+                }
+                buf.append(value);
+            }
+            buf.append("]");
+
+            return buf.toString();
+        }
+    }
+
+    public static final class CurrencyUtil {
+        private CurrencyUtil() {
+        }
+
+        public static boolean isKnown(final String currency) {
+            return false;
+        }
+    }
+
+    private static class ExchangePath implements Comparable {
+
+        private List<ExchangeRate> path;
+        private float exchangeRate;
+
+        public ExchangePath(final List<ExchangeRate> path, final float exchangeRate) {
+            this.path = path;
+            this.exchangeRate = exchangeRate;
+        }
+
+        public List<ExchangeRate> getPath() {
+            return path;
+        }
+
+        public float getExchangeRate() {
+            return exchangeRate;
+        }
+
+        @Override
+        public int compareTo(final Object o) {
+            if (o instanceof ExchangePath) {
+                if (exchangeRate == ((ExchangePath) o).exchangeRate) {
+                    return 0;
+                }
+                if (exchangeRate < ((ExchangePath) o).exchangeRate) {
+                    return -1;
+                }
+
+                return 1;
+            }
+
+            if (hashCode() == o.hashCode()) {
+                return 0;
+            }
+            if (hashCode() < o.hashCode()) {
+                return -1;
+            }
+
+            return 1;
+        }
+    }
+
+    public class ExchangeRate {
+
+        private String fromCurrency;
+        private String toCurrency;
+        private float exchangeRate;
+
+        public ExchangeRate(final String fromCurrency, final String toCurrency, final float exchangeRate) {
+            this.fromCurrency = fromCurrency;
+            this.toCurrency = toCurrency;
+            this.exchangeRate = exchangeRate;
+        }
+
+        public String getFromCurrency() {
+            return fromCurrency;
+        }
+
+        public String getToCurrency() {
+            return toCurrency;
+        }
+
+        public float getExchangeRate() {
+            return exchangeRate;
+        }
     }
 }

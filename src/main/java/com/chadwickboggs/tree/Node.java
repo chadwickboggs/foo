@@ -17,18 +17,12 @@ public class Node {
         this.right = right;
     }
 
-    public Node setValue(final int value) {
-        this.value = value;
-
-        return this;
-    }
-
     public int getValue() {
         return value;
     }
 
-    public Node setLeft(final Node left) {
-        this.left = left;
+    public Node setValue(final int value) {
+        this.value = value;
 
         return this;
     }
@@ -37,14 +31,20 @@ public class Node {
         return left;
     }
 
-    public Node setRight(final Node right) {
-        this.right = right;
+    public Node setLeft(final Node left) {
+        this.left = left;
 
         return this;
     }
 
     public Node getRight() {
         return right;
+    }
+
+    public Node setRight(final Node right) {
+        this.right = right;
+
+        return this;
     }
 
     @Override

@@ -28,22 +28,20 @@ public enum CurrencyUnit {
         this.name = name;
     }
 
-
-    public static enum TYPE {
-        BILL, COIN
-    }
-
     public int getValue() {
         return value;
     }
-
 
     public TYPE getType() {
         return type;
     }
 
-
     public String getName() {
         return name;
+    }
+
+
+    public static enum TYPE {
+        BILL, COIN
     }
 }
