@@ -1,89 +1,23 @@
 package com.chadwickboggs.util;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rx.Observable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 
 public final class EqualityUtils {
 
-    @NotNull
-    public static <E, R> EqualsDeepResult equalsDeep(@Nullable E expected, @Nullable R actual)
-            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        if (expected == null) {
-            if (actual != null) {
-                return new EqualsDeepResult(false, "Not equal.  Expected is null and actual non-null.");
-            }
-        } else if (actual == null) {
-            return new EqualsDeepResult(false, "Not equal.  Expected is non-null and actual null.");
+    public static <F, S> boolean areEqual(@Nullable F first, @Nullable S second) {
+        if (first == second) {
+            return true;
         }
 
-        Map<String, Object> gameProperties = PropertyUtils.describe(expected);
-        Set<Map.Entry<String, Object>> entries = gameProperties.entrySet();
-
-        Observable<Map.Entry<String, Object>> processed = Observable.from(entries).flatMap(entry -> {
-            String name = entry.getKey();
-            if ("class".equals(name)) {
-                return Observable.just(entry);
-            }
-
-            Object value = entry.getValue();
-
-            Object valueReturned = null;
-            try {
-                valueReturned = PropertyUtils.getProperty(actual, name);
-            } catch (Throwable ignored) {
-            }
-
-            String message = String.format(
-                    "Not equal.  Property Name: \"%s\", Value Expected: \"%s\", Value Actual: \"%s\", Object: \"%s\"",
-                    name, value, valueReturned, expected
-            );
-            if (!areEqual(value, valueReturned)) {
-                return Observable.error(new Exception(message));
-            }
-
-            if (value == null || valueReturned == null || value.equals(expected)) {
-                return Observable.just(entry);
-            }
-
-            try {
-                if (!equalsDeep(value, valueReturned).isEqual()) {
-                    return Observable.error(new Exception(message));
-                }
-            } catch (Throwable t) {
-                return Observable.error(t);
-            }
-
-            return Observable.just(entry);
-        });
-
-        List<Map.Entry<String, Object>> processedList = null;
-        try {
-            processedList = processed.toList().toBlocking().single();
-        } catch (Throwable t) {
-            return new EqualsDeepResult(false, t.getMessage());
-        }
-
-        if (entries.size() == processedList.size()) {
-            return EqualsDeepResult.TRUE;
-        } else {
-            return new EqualsDeepResult(false, "Not equal.  Differing counts of properties found.");
-        }
-    }
-
-    public static boolean areEqual(@Nullable Object first, @Nullable Object second) {
         if (first == null && second == null) {
             return true;
         }
@@ -139,7 +73,7 @@ public final class EqualityUtils {
             return allMatch;
         }
 
-        return first.toString().equals(second.toString());
+        return first.equals(second);
     }
 
     public static class EqualsDeepResult {

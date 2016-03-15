@@ -1,8 +1,5 @@
 package com.chadwickboggs.util;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
@@ -15,38 +12,40 @@ public class EqualityUtilsTest {
 
     @Test
     public void testEqualsDeepSinglePrimitive() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        EqualityUtils.EqualsDeepResult equalsDeepResult = EqualityUtils.equalsDeep(
-                new SinglePrimitive(137), new SinglePrimitive(137)
-        );
-        printMessage(equalsDeepResult.isNotEqual(), equalsDeepResult, StringUtils.EMPTY);
-        assertTrue(getMessage(equalsDeepResult, StringUtils.EMPTY), equalsDeepResult.isEqual());
-
-        equalsDeepResult = EqualityUtils.equalsDeep(new SinglePrimitive(137), new SinglePrimitive(139));
-        printMessage(equalsDeepResult.isNotEqual(), equalsDeepResult, StringUtils.EMPTY);
-        assertTrue(getMessage(equalsDeepResult, StringUtils.EMPTY), equalsDeepResult.isNotEqual());
+        assertTrue(EqualityUtils.areEqual(137, 137));
+        assertTrue(EqualityUtils.areEqual(137, 139));
     }
 
     @Test
     public void testEqualsDeepSingleObject() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        EqualityUtils.EqualsDeepResult equalsDeepResult = EqualityUtils.equalsDeep("137", "137");
-        printMessage(equalsDeepResult.isNotEqual(), equalsDeepResult, StringUtils.EMPTY);
-        assertTrue(getMessage(equalsDeepResult, StringUtils.EMPTY), equalsDeepResult.isEqual());
-
-        equalsDeepResult = EqualityUtils.equalsDeep("137", "139");
-        printMessage(equalsDeepResult.isNotEqual(), equalsDeepResult, StringUtils.EMPTY);
-        assertTrue(getMessage(equalsDeepResult, StringUtils.EMPTY), equalsDeepResult.isNotEqual());
+        assertTrue(EqualityUtils.areEqual("137", "137"));
+        assertTrue(EqualityUtils.areEqual("137", "139"));
     }
 
     @Test
-    public void testEqualsDeepArrayPrimitive() {
+    public void testEqualsDeepArrayPrimitive() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        byte[] expected = {(byte) 137};
+        byte[] actual = {(byte) 137};
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+        actual = new byte[] {(byte) 139};
+        assertTrue(EqualityUtils.areEqual(expected, actual));
     }
 
     @Test
     public void testEqualsDeepArrayObject() {
+        String[] expected = {"137"};
+        String[] actual = {"137"};
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+        actual = new String[] {"139"};
+        assertTrue(EqualityUtils.areEqual(expected, actual));
     }
 
     @Test
     public void testEqualsDeepCollection() {
+/*
+        Collection expected =
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+*/
     }
 
     @Test
@@ -85,43 +84,4 @@ public class EqualityUtilsTest {
         return message.isPresent() ? message.get() : defaultValue;
     }
 
-    public static class SinglePrimitive {
-        private int value;
-
-        public SinglePrimitive(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (obj == this) {
-                return true;
-            }
-            if (obj.getClass() != getClass()) {
-                return false;
-            }
-            SinglePrimitive rhs = (SinglePrimitive) obj;
-            return new EqualsBuilder()
-                    .append(this.value, rhs.value)
-                    .isEquals();
-        }
-
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder()
-                    .append(value)
-                    .toHashCode();
-        }
-    }
 }
