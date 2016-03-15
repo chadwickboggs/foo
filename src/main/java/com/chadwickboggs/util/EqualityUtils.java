@@ -60,15 +60,7 @@ public final class EqualityUtils {
                 return false;
             }
 
-            boolean allMatch = ((Map) first).entrySet().stream().allMatch(entry -> {
-                Object valueSecond = ((Map) second).get(((Map.Entry) entry).getKey());
-
-                boolean areEqual = areEqual(((Map.Entry) entry).getValue(), valueSecond);
-
-                return areEqual;
-            });
-
-            return allMatch;
+            CollectionUtils.isEqualCollection(((Map) first).entrySet(), ((Map) second).entrySet());
         }
 
         return first.equals(second);
