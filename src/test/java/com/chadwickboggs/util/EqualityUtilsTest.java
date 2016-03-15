@@ -1,10 +1,8 @@
 package com.chadwickboggs.util;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
 
@@ -70,18 +68,6 @@ public class EqualityUtilsTest {
 
     @Test
     public void testEqualsDeepAll() {
-    }
-
-    private void printMessage(boolean condition, EqualityUtils.EqualsDeepResult equalsDeepResult, String defaultValue) {
-        if (condition) {
-            System.err.println(getMessage(equalsDeepResult, defaultValue));
-        }
-    }
-
-    private String getMessage(EqualityUtils.EqualsDeepResult equalsDeepResult, String defaultValue) {
-        @NotNull Optional<String> message = equalsDeepResult.getMessage();
-
-        return message.isPresent() ? message.get() : defaultValue;
     }
 
 }

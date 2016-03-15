@@ -2,13 +2,11 @@ package com.chadwickboggs.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 
 public final class EqualityUtils {
@@ -76,34 +74,4 @@ public final class EqualityUtils {
         return first.equals(second);
     }
 
-    public static class EqualsDeepResult {
-
-        public static final EqualsDeepResult TRUE = new EqualsDeepResult(true);
-        public static final EqualsDeepResult FALSE = new EqualsDeepResult(false);
-
-        private boolean equal;
-        private Optional<String> message = Optional.empty();
-
-        public EqualsDeepResult(boolean equal) {
-            this.equal = equal;
-        }
-
-        public EqualsDeepResult(boolean equal, @NotNull String message) {
-            this.equal = equal;
-            this.message = Optional.of(message);
-        }
-
-        public boolean isEqual() {
-            return equal;
-        }
-
-        public boolean isNotEqual() {
-            return !equal;
-        }
-
-        @NotNull
-        public Optional<String> getMessage() {
-            return message;
-        }
-    }
 }
