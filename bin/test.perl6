@@ -1,0 +1,27 @@
+#!/usr/bin/env perl6
+
+class ScoreKeeper {
+  has %!player-points;
+
+  method score($player, $points) {
+    %!player-points{$player} += $points;
+  }
+
+  method ranking() {
+    %!player-points.pairs.sort({ -.value });
+  }
+
+  submethod BUILD(:@players) {
+    for @players -> $player {
+      %!player-points{$player} = 0;
+    }
+  }
+}
+
+my $game = ScoreKeeper.new(players => <jnthn masak lizmat>);
+
+$game.score('jnthn', 100);
+$game.score('lizmat', 150);
+for $game.ranking -> $s {
+  say "$s.key(): $s.value() points.";
+}
