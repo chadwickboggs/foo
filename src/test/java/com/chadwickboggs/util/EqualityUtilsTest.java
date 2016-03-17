@@ -76,22 +76,85 @@ public class EqualityUtilsTest {
 
     @Test
     public void testareEquals2DArrayPrimitive() {
+        byte[][] expected = {{(byte) 137}, {(byte) 139}};
+        byte[][] actual = {{(byte) 137}, {(byte) 139}};
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+
+        byte[][] actualFalse = {{(byte) 2}, {(byte) 3}};
+        assertFalse(EqualityUtils.areEqual(expected, actualFalse));
     }
 
     @Test
     public void testareEquals2DArrayObject() {
+        String[][] expected = {{"137"}, {"139"}};
+        String[][] actual = {{"137"}, {"139"}};
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+
+        String[][] actualFalse = {{"2"}, {"3"}};
+        assertFalse(EqualityUtils.areEqual(expected, actualFalse));
     }
 
     @Test
     public void testareEquals2DCollection() {
+        Collection<Collection<String>> expected = new ArrayList<>();
+        Collection<String> tmp = new ArrayList<>();
+        expected.add(tmp);
+        tmp.add("one");
+        tmp = new ArrayList<>();
+        expected.add(tmp);
+        tmp.add("two");
+
+        Collection<Collection<String>> actual = new HashSet<>();
+        tmp = new ArrayList<>();
+        actual.add(tmp);
+        tmp.add("one");
+        tmp = new ArrayList<>();
+        actual.add(tmp);
+        tmp.add("two");
+
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+
+        actual = new HashSet<>();
+        tmp = new ArrayList<>();
+        actual.add(tmp);
+        tmp.add("three");
+        tmp = new ArrayList<>();
+        actual.add(tmp);
+        tmp.add("four");
+
+        assertFalse(EqualityUtils.areEqual(expected, actual));
     }
 
     @Test
     public void testareEquals2DMap() {
+        Map<String, Map<String, Integer>> expected = new HashMap<>();
+        Map<String, Integer> tmp = new HashMap<>();
+        expected.put("first", tmp);
+        tmp.put("key1", 1);
+        tmp = new HashMap<>();
+        expected.put("second", tmp);
+        tmp.put("key2", 2);
+
+        Map<String, Map<String, Integer>> actual = new HashMap<>();
+        tmp = new HashMap<>();
+        actual.put("first", tmp);
+        tmp.put("key1", 1);
+        tmp = new HashMap<>();
+        actual.put("second", tmp);
+        tmp.put("key2", 2);
+
+        assertTrue(EqualityUtils.areEqual(expected, actual));
+
+        tmp = new HashMap<>();
+        actual.put("third", tmp);
+        tmp.put("key3", 3);
+
+        assertFalse(EqualityUtils.areEqual(expected, actual));
     }
 
     @Test
     public void testareEqualsAll() {
+        // TODO: Implement.
     }
 
 }
