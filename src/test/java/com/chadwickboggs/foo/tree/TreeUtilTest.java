@@ -2,7 +2,7 @@ package com.chadwickboggs.foo.tree;
 
 import com.chadwickboggs.tree.Node;
 import com.chadwickboggs.tree.TreeUtil;
-import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
