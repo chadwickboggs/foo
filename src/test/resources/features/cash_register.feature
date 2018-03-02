@@ -1,6 +1,13 @@
 Feature: CashRegister
 
-  Scenario: Pay exact price
+  Background:
     Given Price 20
-    When Paid 20
-    Then Change 0
+
+  Scenario Outline:
+    When Paid <payment>
+    Then Change <change>
+
+  Examples:
+    | payment | change |
+    | 20      | 0      |
+    | 30      | 10     |

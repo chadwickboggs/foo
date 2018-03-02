@@ -5,6 +5,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java8.En;
 
+import java.math.BigInteger;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -45,7 +47,7 @@ public class CashRegisterStepsDef implements En {
     public void paid(final Integer payment) {
         System.out.println(String.format("Paid %s", payment));
         this.payment = payment;
-        change = payment - price;
+        change = CashRegister.pay(BigInteger.valueOf(price), BigInteger.valueOf(this.payment)).intValue();
     }
 
 
