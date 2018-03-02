@@ -1,5 +1,6 @@
 package com.chadwickboggs.foo.scala
 
+/*
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
@@ -33,3 +34,4 @@ class MainTest extends FunSuite {
   }
 
 }
+*/
