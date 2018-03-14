@@ -47,7 +47,7 @@ public class CashRegisterStepsDef implements En {
     public void paid(final Integer payment) {
         System.out.println(String.format("Paid %s", payment));
         this.payment = payment;
-        change = CashRegister.pay(BigInteger.valueOf(price), BigInteger.valueOf(this.payment)).intValue();
+        change = CashRegister.pay(BigInteger.valueOf(this.payment), BigInteger.valueOf(price)).intValue();
     }
 
 
