@@ -42,7 +42,7 @@ public class CashRegister {
 
 
   public static BigInteger pay( final BigInteger amount, final BigInteger price ) {
-    final BigInteger change = price.subtract( amount );
+    final BigInteger change = amount.subtract(price);
 
     return change;
   }
