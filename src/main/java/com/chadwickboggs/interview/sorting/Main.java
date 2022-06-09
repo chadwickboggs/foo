@@ -12,7 +12,7 @@ public class Main {
 
     public static void main( String... args ) {
         final List<Integer> integerListReadOnly = Collections.unmodifiableList( Arrays.asList(
-            6, 4, 5, 2, 1, 3
+            6, 4, 5, 2, 1, 2, 3
         ) );
         System.out.print( "Integers Unsorted: " );
         System.out.println( integerListReadOnly );
