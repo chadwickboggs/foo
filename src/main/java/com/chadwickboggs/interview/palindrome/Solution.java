@@ -1,4 +1,4 @@
-package com.chadwickboggs.interview.palandrome;
+package com.chadwickboggs.interview.palindrome;
 
 class Solution {
 
@@ -19,7 +19,7 @@ class Solution {
         for ( int i = 0; i < value.length(); i++ ) {
             for ( int j = i + 2; j <= value.length(); j++ ) {
                 String substring = value.substring( i, j );
-                if ( isPalendrome( substring ) && substring.length() > longestFound.length() ) {
+                if ( isPalindrome( substring ) && substring.length() > longestFound.length() ) {
                     longestFound = substring;
                 }
             }
@@ -28,7 +28,7 @@ class Solution {
         return longestFound;
     }
 
-    private static boolean isPalendrome( String substring ) {
+    private static boolean isPalindrome( String substring ) {
         final StringBuilder buf = new StringBuilder( substring.length() );
         for ( int i = substring.length() - 1; i >= 0; i-- ) {
             buf.append( substring.charAt( i ) );
