@@ -15,7 +15,10 @@ public class Main {
             .filter( value -> listTwo.contains( value ) )
             .collect( Collectors.toList() );
 
-        System.out.println( intersection );
+        System.out.println( String.format(
+            "The intersection between %s and %s is %s.",
+            listOne, listTwo, intersection
+        ) );
     }
 
 }
