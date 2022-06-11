@@ -3,7 +3,20 @@ package com.chadwickboggs.interview.palindrome;
 class Solution {
 
     public static void main( String... args ) {
-        System.out.println( longestPalindrome( "chadahc" ) );
+        String value = "chad";
+        stdout( value, longestPalindrome( value ) );
+
+        value = "chadahc";
+        stdout( value, longestPalindrome( value ) );
+
+        value = "tiffany";
+        stdout( value, longestPalindrome( value ) );
+    }
+
+    private static void stdout( final String value, final String longestPalindrome ) {
+        System.out.println( String.format(
+            "longestPalindrome( \"%s\" ) = \"%s\"", value, longestPalindrome
+        ) );
     }
 
     public static String longestPalindrome( String value ) {
