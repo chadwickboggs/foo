@@ -1,5 +1,8 @@
 package com.chadwickboggs.interview.palindrome;
 
+import java.util.Optional;
+
+
 class Solution {
 
     public static void main( String... args ) {
@@ -13,16 +16,9 @@ class Solution {
         stdout( value, longestPalindrome( value ) );
     }
 
-    private static void stdout( final String value, final String longestPalindrome ) {
-        System.out.println( String.format(
-            "longestPalindrome( \"%s\" ) = \"%s\"", value, longestPalindrome
-        ) );
-    }
-
-    public static String longestPalindrome( String value ) {
-        if ( value == null ) return null;
-        if ( value.length() == 0 ) return "";
-        if ( value.length() == 1 ) return value.substring( 0, 1 );
+    public static Optional<String> longestPalindrome( String value ) {
+        if ( value == null ) return Optional.empty();
+        if ( value.length() <= 0 ) return Optional.empty();
 
         //
         // Loop through every substring, if a polidtrome save
@@ -38,7 +34,19 @@ class Solution {
             }
         }
 
-        return longestFound;
+        if ( longestFound == "" ) {
+            return Optional.empty();
+        }
+
+        return Optional.of(longestFound);
+    }
+
+    private static void stdout( final String valueUnderTest, final Optional<String> longestPalindromeOpt ) {
+        System.out.println( String.format(
+            "longestPalindromeOpt( \"%s\" ) = \"%s\"",
+            valueUnderTest,
+            longestPalindromeOpt.isPresent() ? longestPalindromeOpt.get() : ""
+        ) );
     }
 
     private static boolean isPalindrome( String substring ) {
