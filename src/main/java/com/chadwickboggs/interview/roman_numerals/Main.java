@@ -28,6 +28,8 @@ public class Main {
 
         // Test composite adding and subtracting values.
 
+        // Test error handling of invalid roman numeral values.
+
     }
 
     private static void testTranslationOf( final String romanNumeralValue, int expectedValue ) {
