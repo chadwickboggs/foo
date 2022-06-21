@@ -74,6 +74,8 @@ public class Main {
             }
         }
 
+        // TODO: Add handling of final character in odd length roman numeral values.
+
         return intValue;
     }
 
